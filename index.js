@@ -1,6 +1,5 @@
-// process.env.API_BASE_URL = "http://localhost:8080/bot";
 const express = require('express');
-const line = require('@line/bot-sdk');
+const linebot = require('@line/bot-sdk');
 
 const config = {
     channelAccessToken: process.env.YOUR_CHANNEL_ACCESS_TOKEN,
@@ -11,24 +10,49 @@ const app = express();
 
 app.set('port', (process.env.PORT || 3030));
 
-app.post('/', line.middleware(config), (req, res) => {
+app.post('/', linebot.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
         .then((result) => res.json(result));
 });
 
-const client = new line.Client(config);
+const client = new linebot.Client(config);
 function handleEvent(event) {
     console.log('event ->', event);
+    this.line = event;
 
-    if (event.type !== 'message' || event.message.type !== 'text') {
+    switch(event.type) {
+        case 'message':
+            messageEvent();
+            break;
+        case 'follow':
+            followEvent();
+            break;
+        case 'unfollow':
+            unfollowEvent();
+            break;
+        default:
+            return Promise.resolve(null);
+    }
+}
+
+function messageEvent() {
+    console.log('is message');
+    if(this.line.message.type !== 'text') {
         return Promise.resolve(null);
     }
-
-    return client.replyMessage(event.replyToken, {
+    return client.replyMessage(this.line.replyToken, {
         type: 'text',
-        text: event.message.text
+        text: this.line.message.text
     });
+}
+
+function followEvent() {
+    console.log('follow success!');
+}
+
+function unfollowEvent() {
+    console.log('unfollow success!');
 }
 
 app.listen(app.get('port'), function() {
