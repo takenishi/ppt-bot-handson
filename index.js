@@ -1,4 +1,4 @@
-process.env.API_BASE_URL = "http://localhost:8080/bot";
+// process.env.API_BASE_URL = "http://localhost:8080/bot";
 const express = require('express');
 const line = require('@line/bot-sdk');
 
