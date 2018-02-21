@@ -8,6 +8,9 @@ const config = {
 };
 
 const app = express();
+
+app.set('port', (process.env.PORT || 3030));
+
 app.post('/', line.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
@@ -26,4 +29,6 @@ function handleEvent(event) {
     });
 }
 
-app.listen(3232);
+app.listen(app.get('port'), function() {
+    console.log('Node app is running -> port:', app.get('port'));
+});
