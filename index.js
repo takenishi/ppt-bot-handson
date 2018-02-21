@@ -9,7 +9,7 @@ const config = {
 
 const app = express();
 
-app.set('port', 3030);
+app.set('port', (process.env.PORT || 3030));
 
 app.post('/', line.middleware(config), (req, res) => {
     Promise
