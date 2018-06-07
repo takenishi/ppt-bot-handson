@@ -10,6 +10,8 @@ const app = express();
 
 app.set('port', (process.env.PORT || 3030));
 
+app.use('/liff', express.static('./public'));
+
 app.post('/', linebot.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
@@ -42,8 +44,9 @@ function messageEvent() {
         return Promise.resolve(null);
     }
     return client.replyMessage(this.line.replyToken, {
-        type: 'text',
-        text: this.line.message.text
+        "type": "image",
+        "originalContentUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg",
+        "previewImageUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg"
     });
 }
 
