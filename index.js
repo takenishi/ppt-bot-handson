@@ -59,32 +59,57 @@ function messageEvent() {
     }
 
     client.replyMessage({
-        "type": "bubble",
-        "body": {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": "こちらはFlex Messageのてすとです。",
-                    "wrap": true
+        "type": "flex",
+        "altText": "this is a flex message",
+        "contents": {
+            "type": "bubble",
+            "styles": {
+                "header": {
+                    "backgroundColor": "#ffaaaa"
+                },
+                "body": {
+                    "backgroundColor": "#aaffaa"
+                },
+                "footer": {
+                    "backgroundColor": "#aaaaff"
                 }
-            ]
-        },
-        "footer": {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-                {
-                    "type": "button",
-                    "style": "primary",
-                    "action": {
-                        "type": "uri",
-                        "label": "Go",
-                        "uri": "https://example.com"
+            },
+            "header": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "header"
                     }
-                }
-            ]
+                ]
+            },
+            "hero": {
+                "type": "image",
+                "url": "https://example.com/flex/images/image.jpg",
+                "size": "full",
+                "aspectRatio": "2:1"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "body"
+                    }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "footer"
+                    }
+                ]
+            }
         }
     })
 
