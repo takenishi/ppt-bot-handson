@@ -13,7 +13,7 @@ app.set('port', (process.env.PORT || 3030));
 app.post('/', linebot.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
-        .then((result) => res.json(result));
+        .then(result => res.json(result));
 });
 
 const client = new linebot.Client(config);
@@ -36,19 +36,58 @@ function handleEvent(event) {
     }
 }
 
+
+
 function messageEvent() {
+    const {
+        message,
+        text
+    } = this.line.message;
+
     console.log('is message');
-    if(this.line.message.type !== 'text') {
+    if(message.type !== 'text') {
         return Promise.resolve(null);
     }
 
-    console.log("message ->", this.line.message);
+    if(text.contains('疲れた') || text.contains('つかれた') || text.contains('ツカレタ')) {
+        return client.replyMessage(this.line.replyToken, {
+            "type": "image",
+            "originalContentUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg",
+            "previewImageUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg"
+        });
+    }
 
-    return client.replyMessage(this.line.replyToken, {
-        "type": "image",
-        "originalContentUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg",
-        "previewImageUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg"
-    });
+    client.replyMessage({
+        "type": "bubble",
+        "body": {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "こちらはFlex Messageのてすとです。",
+                    "wrap": true
+                }
+            ]
+        },
+        "footer": {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+                {
+                    "type": "button",
+                    "style": "primary",
+                    "action": {
+                        "type": "uri",
+                        "label": "Go",
+                        "uri": "https://example.com"
+                    }
+                }
+            ]
+        }
+    })
+
+
 }
 
 function followEvent() {
