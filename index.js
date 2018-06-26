@@ -58,7 +58,7 @@ function messageEvent() {
         });
     }
 
-    client.replyMessage({
+    return client.replyMessage({
         "type": "flex",
         "altText": "this is a flex message",
         "contents": {
@@ -111,7 +111,7 @@ function messageEvent() {
                 ]
             }
         }
-    })
+    });
 
 
 }
