@@ -49,7 +49,7 @@ function messageEvent() {
             "previewImageUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg"
         });
     }
-    return client.replyMessage(event.replyToken, {
+    return client.replyMessage(this.line.replyToken, {
         type: 'text',
         text: event.message.text
     });
