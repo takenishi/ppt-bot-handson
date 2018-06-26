@@ -51,7 +51,7 @@ function messageEvent() {
     }
     return client.replyMessage(this.line.replyToken, {
         type: 'text',
-        text: event.message.text
+        text: text
     });
 }
 //     return client.replyMessage(this.line.replyToken, {
