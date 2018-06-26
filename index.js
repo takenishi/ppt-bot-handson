@@ -58,7 +58,7 @@ function messageEvent() {
         });
     }
 
-    return client.replyMessage({
+    return client.replyMessage(this.line.replyToken, {
         "type": "flex",
         "altText": "this is a flex message",
         "contents": {
