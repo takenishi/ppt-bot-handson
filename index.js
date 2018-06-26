@@ -40,12 +40,13 @@ function handleEvent(event) {
 
 function messageEvent() {
     const {
-        message,
-        text
+        type,
+        id,
+        text,
     } = this.line.message;
 
     console.log('is message');
-    if(message.type !== 'text') {
+    if(type !== 'text') {
         return Promise.resolve(null);
     }
 
