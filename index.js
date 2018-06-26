@@ -10,8 +10,6 @@ const app = express();
 
 app.set('port', (process.env.PORT || 3030));
 
-app.use('/liff', express.static('./public'));
-
 app.post('/', linebot.middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
