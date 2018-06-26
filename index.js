@@ -43,6 +43,9 @@ function messageEvent() {
     if(this.line.message.type !== 'text') {
         return Promise.resolve(null);
     }
+
+    console.log("message ->", this.line.message);
+
     return client.replyMessage(this.line.replyToken, {
         "type": "image",
         "originalContentUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg",
