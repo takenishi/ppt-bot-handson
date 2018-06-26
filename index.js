@@ -50,7 +50,7 @@ function messageEvent() {
         return Promise.resolve(null);
     }
 
-    if(text.contains('疲れた') || text.contains('つかれた') || text.contains('ツカレタ')) {
+    if(text.includes('疲れた') || text.includes('つかれた') || text.includes('ツカレタ')) {
         return client.replyMessage(this.line.replyToken, {
             "type": "image",
             "originalContentUrl": "https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg",
