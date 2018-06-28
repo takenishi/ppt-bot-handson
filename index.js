@@ -54,6 +54,10 @@ function messageEvent() {
     if (text.includes('疲れた') || text.includes('つかれた') || text.includes('ツカレタ')) {
         return client.replyMessage(this.line.replyToken, helper.sendImage("https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg"));
     }
+    if (text.includes('バブル') || text.includes('ばぶる')) {
+        return client.replyMessage(this.line.replyToken, helper.sendBubble());
+    }
+
     return client.replyMessage(this.line.replyToken, helper.sendText(text));
 }
 
