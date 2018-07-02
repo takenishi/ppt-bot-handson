@@ -64,10 +64,7 @@ async function messageEvent() {
     if (text.includes('item')) {
         const test = await helper.sendItems(text);
         console.log("items =>", test.body.contents[0].contents);
-        return client.replyMessage(this.line.replyToken, {
-            type: 'text',
-            text: text
-        });
+        return client.replyMessage(this.line.replyToken, test);
     }
 
 
