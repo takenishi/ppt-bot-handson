@@ -41,7 +41,7 @@ function handleEvent(event) {
     }
 }
 
-function messageEvent() {
+async function messageEvent() {
     const helper = new linebotHelper();
     const {
         type,
@@ -62,7 +62,9 @@ function messageEvent() {
         return client.replyMessage(this.line.replyToken, helper.sendQiita(text));
     }
     if (text.includes('item')) {
-        return client.replyMessage(this.line.replyToken, helper.sendItems(text));
+        const test = await helper.sendItems(text);
+        console.log("items =>", test);
+        return client.replyMessage(this.line.replyToken, test);
     }
 
 
