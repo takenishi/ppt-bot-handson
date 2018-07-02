@@ -52,7 +52,7 @@ function messageEvent() {
     }
 
     if (text.includes('疲れた') || text.includes('つかれた') || text.includes('ツカレタ')) {
-        return client.replyMessage(this.line.replyToken, helper.sendImage("https://chikyu-jack.com/wp-content/uploads/2015/06/saddest_cat_13.jpg"));
+        return client.replyMessage(this.line.replyToken, helper.sendImage("https://qiita-image-store.s3.amazonaws.com/0/203817/profile-images/1510250083"));
     }
     if (text.includes('バブル') || text.includes('ばぶる')) {
         return client.replyMessage(this.line.replyToken, helper.sendBubble());
