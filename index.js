@@ -15,10 +15,11 @@ app.post('/', linebot.middleware(config), (req, res) => {
         .then(result => res.json(result));
 });
 
-app.get('/test', function(req, res) {
+app.get('/test', async function(req, res) {
     const helper = new linebotHelper();
-    console.log('test ->', helper.getBubble());
-    res.json({result: true});
+    const test =  await helper.sendQiita("test");
+    console.log('test ->', test);
+    res.json(test);
 });
 
 const client = new linebot.Client(config);
@@ -60,6 +61,10 @@ function messageEvent() {
     if (text.includes('Qiita')) {
         return client.replyMessage(this.line.replyToken, helper.sendQiita(text));
     }
+    if (text.includes('item')) {
+        return client.replyMessage(this.line.replyToken, helper.sendItems(text));
+    }
+
 
     return client.replyMessage(this.line.replyToken, helper.sendText(text));
 }
