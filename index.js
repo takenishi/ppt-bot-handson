@@ -57,6 +57,9 @@ function messageEvent() {
     if (text.includes('バブル') || text.includes('ばぶる')) {
         return client.replyMessage(this.line.replyToken, helper.sendBubble());
     }
+    if (text.includes('Qiita')) {
+        return client.replyMessage(this.line.replyToken, helper.sendQiita(text));
+    }
 
     return client.replyMessage(this.line.replyToken, helper.sendText(text));
 }
