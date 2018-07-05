@@ -78,7 +78,7 @@ async function messageEvent() {
             const space = await helper.sendButton(text);
             return client.replyMessage(this.line.replyToken, space);
         }
-        if (text.includes('sendFinish')) {
+        if (text.includes('おわり')) {
             const space = await helper.sendFinish(text);
             return client.replyMessage(this.line.replyToken, space);
         }
