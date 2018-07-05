@@ -42,43 +42,47 @@ function handleEvent(event) {
 }
 
 async function messageEvent() {
-    const helper = new linebotHelper();
-    const {
-        type,
-        text,
-    } = this.line.message;
+    try {
+        const helper = new linebotHelper();
+        const {
+            type,
+            text,
+        } = this.line.message;
 
-    if (type !== 'text') {
-        return Promise.resolve(null);
-    }
+        if (type !== 'text') {
+            return Promise.resolve(null);
+        }
 
-    if (text.includes('疲れた') || text.includes('つかれた') || text.includes('ツカレタ')) {
-        return client.replyMessage(this.line.replyToken, helper.sendImage("https://qiita-image-store.s3.amazonaws.com/0/203817/profile-images/1510250083"));
-    }
-    if (text.includes('バブル') || text.includes('ばぶる')) {
-        return client.replyMessage(this.line.replyToken, helper.sendBubble());
-    }
-    if (text.includes('Qiita')) {
-        return client.replyMessage(this.line.replyToken, helper.sendQiita(text));
-    }
-    if (text.includes('アイコン')) {
-        const test = await helper.sendIcons(text);
-        return client.replyMessage(this.line.replyToken, test);
-    }
-    if (text.includes('セパレータ')) {
-        const space = await helper.sendSeparator(text);
-        return client.replyMessage(this.line.replyToken, space);
-    }
-    if (text.includes('ボタン')) {
-        const space = await helper.sendButton(text);
-        return client.replyMessage(this.line.replyToken, space);
-    }
-    if (text.includes('スペーサー')) {
-        const space = await helper.sendSpacer(text);
-        return client.replyMessage(this.line.replyToken, space);
-    }
+        if (text.includes('疲れた') || text.includes('つかれた') || text.includes('ツカレタ')) {
+            return client.replyMessage(this.line.replyToken, helper.sendImage("https://qiita-image-store.s3.amazonaws.com/0/203817/profile-images/1510250083"));
+        }
+        if (text.includes('バブル') || text.includes('ばぶる')) {
+            return client.replyMessage(this.line.replyToken, helper.sendBubble());
+        }
+        if (text.includes('Qiita')) {
+            return client.replyMessage(this.line.replyToken, helper.sendQiita(text));
+        }
+        if (text.includes('アイコン')) {
+            const test = await helper.sendIcons(text);
+            return client.replyMessage(this.line.replyToken, test);
+        }
+        if (text.includes('セパレータ')) {
+            const space = await helper.sendSeparator(text);
+            return client.replyMessage(this.line.replyToken, space);
+        }
+        if (text.includes('ボタン')) {
+            const space = await helper.sendButton(text);
+            return client.replyMessage(this.line.replyToken, space);
+        }
+        if (text.includes('スペーサー')) {
+            const space = await helper.sendSpacer(text);
+            return client.replyMessage(this.line.replyToken, space);
+        }
+        return client.replyMessage(this.line.replyToken, helper.sendText(text));
 
-    return client.replyMessage(this.line.replyToken, helper.sendText(text));
+    } catch(err) {
+        console.log(err);
+    }
 }
 
 function followEvent() {
