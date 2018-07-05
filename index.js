@@ -8,6 +8,7 @@ const config = {
 const app = express();
 
 app.set('port', (process.env.PORT || 3030));
+app.use('/public', express.static('./public'));
 
 app.post('/', linebot.middleware(config), (req, res) => {
     Promise
