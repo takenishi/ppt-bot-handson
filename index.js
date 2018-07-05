@@ -78,8 +78,8 @@ async function messageEvent() {
             const space = await helper.sendButton(text);
             return client.replyMessage(this.line.replyToken, space);
         }
-        if (text.includes('スペーサー')) {
-            const space = await helper.sendSpacer(text);
+        if (text.includes('sendFinish')) {
+            const space = await helper.sendFinish(text);
             return client.replyMessage(this.line.replyToken, space);
         }
         return client.replyMessage(this.line.replyToken, helper.sendText(text));
