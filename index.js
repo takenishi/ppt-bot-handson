@@ -70,6 +70,10 @@ async function messageEvent() {
             const space = await helper.sendSeparator(text);
             return client.replyMessage(this.line.replyToken, space);
         }
+        if (text.includes('イメージ')) {
+            const space = await helper.sendImage(text);
+            return client.replyMessage(this.line.replyToken, space);
+        }
         if (text.includes('ボタン')) {
             const space = await helper.sendButton(text);
             return client.replyMessage(this.line.replyToken, space);
