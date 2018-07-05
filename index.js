@@ -66,10 +66,9 @@ async function messageEvent() {
         return client.replyMessage(this.line.replyToken, test);
     }
     if (text.includes('スペーサー')) {
-        const test = await helper.sendSpacer(text);
+        const space = await helper.sendSpacer(text);
         return client.replyMessage(this.line.replyToken, test);
     }
-
 
     return client.replyMessage(this.line.replyToken, helper.sendText(text));
 }
