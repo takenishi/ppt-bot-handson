@@ -61,9 +61,12 @@ async function messageEvent() {
     if (text.includes('Qiita')) {
         return client.replyMessage(this.line.replyToken, helper.sendQiita(text));
     }
-    if (text.includes('item')) {
-        const test = await helper.sendItems(text);
-        console.log("items =>", test);
+    if (text.includes('アイコン')) {
+        const test = await helper.sendIcons(text);
+        return client.replyMessage(this.line.replyToken, test);
+    }
+    if (text.includes('スペーサー')) {
+        const test = await helper.sendSpacer(text);
         return client.replyMessage(this.line.replyToken, test);
     }
 
