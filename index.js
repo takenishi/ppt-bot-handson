@@ -65,6 +65,10 @@ async function messageEvent() {
         const test = await helper.sendIcons(text);
         return client.replyMessage(this.line.replyToken, test);
     }
+    if (text.includes('セパレータ')) {
+        const space = await helper.sendSeparator(text);
+        return client.replyMessage(this.line.replyToken, space);
+    }
     if (text.includes('スペーサー')) {
         const space = await helper.sendSpacer(text);
         return client.replyMessage(this.line.replyToken, space);
