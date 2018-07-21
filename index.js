@@ -7,22 +7,23 @@ const Users = require('./models/userModel');
 const TrashDays = require('./models/trashDayModel');
 const lineApiHelper = require('./helper/lineApiHelper');
 const messageHelper = require('./helper/messageHelper');
-const config = {
-    channelAccessToken: process.env.YOUR_CHANNEL_ACCESS_TOKEN || "",
-    channelSecret: process.env.YOUR_CHANNEL_SECRET || ""
+const config = require("config");
+const settings = {
+    channelAccessToken: process.env.YOUR_CHANNEL_ACCESS_TOKEN || config.YOUR_CHANNEL_ACCESS_TOKEN,
+    channelSecret: process.env.YOUR_CHANNEL_SECRET || config.YOUR_CHANNEL_SECRET
 };
 const app = express();
 
 app.set('port', (process.env.PORT || 3030));
 app.use('/public', express.static('./public'));
 
-app.post('/', linebot.middleware(config), (req, res) => {
+app.post('/', linebot.middleware(settings), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
         .then(result => res.json(result));
 });
 
-const client = new linebot.Client(config);
+const client = new linebot.Client(settings);
 function handleEvent(event) {
     this.event = event;
 
