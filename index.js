@@ -52,7 +52,10 @@ async function messageEvent() {
             return Promise.resolve(null);
         }
 
+        console.log("hello");
+
         if(!user || !user.area) {
+            console.log("no user");
             returnMessage =  messageHelper.textMessage(Constants.AREA_UNSET_MESSAGE);
         }
 
