@@ -44,6 +44,7 @@ function handleEvent(event) {
 
 async function messageEvent() {
     try {
+        console.log("testttestttest");
         const line = new lineApiHelper(this.event);
         const user = await Users.findOne({midSha256: line.getUserId()});
         let returnMessage = messageHelper.textMessage('こんにちは');
