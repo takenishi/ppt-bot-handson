@@ -1,7 +1,3 @@
-// const request = require('request-promise');
-const qiitaApi = require('../lib/qiitaApiHelper');
-const qiitaHelper = new qiitaApi;
-
 class lineApiHelper {
     constructor(event) {
         this.line = event
