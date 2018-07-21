@@ -2,6 +2,7 @@ class lineApiHelper {
     constructor(event) {
         this.line = event
     }
+
     getReplyToken() {
         return this.line.replyToken;
     }
