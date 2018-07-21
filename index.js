@@ -1,6 +1,12 @@
+// process.env.API_BASE_URL = "http://localhost:8080/bot";
+require('./models/mongoLoader');
 const express = require('express');
 const linebot = require('@line/bot-sdk');
-const linebotHelper = require('./lib/responseMessages');
+const Constants = require('./lib/Constants');
+const Users = require('./models/userModel');
+const TrashDays = require('./models/trashDayModel');
+const lineApiHelper = require('./helper/lineApiHelper');
+const messageHelper = require('./helper/messageHelper');
 const config = {
     channelAccessToken: process.env.YOUR_CHANNEL_ACCESS_TOKEN || "",
     channelSecret: process.env.YOUR_CHANNEL_SECRET || ""
@@ -16,16 +22,9 @@ app.post('/', linebot.middleware(config), (req, res) => {
         .then(result => res.json(result));
 });
 
-app.get('/test', async function(req, res) {
-    const helper = new linebotHelper();
-    const test =  await helper.sendQiita("test");
-    console.log('test ->', test);
-    res.json(test);
-});
-
 const client = new linebot.Client(config);
 function handleEvent(event) {
-    this.line = event;
+    this.event = event;
 
     switch(event.type) {
         case 'message':
@@ -44,43 +43,29 @@ function handleEvent(event) {
 
 async function messageEvent() {
     try {
-        const helper = new linebotHelper();
-        const {
-            type,
-            text,
-        } = this.line.message;
+        const line = new lineApiHelper(this.event);
+        const user = await Users.findOne({midSha256: line.getUserId()});
+        let returnMessage = messageHelper.textMessage('こんにちは');
 
-        if (type !== 'text') {
+        if (line.getType() !== 'text') {
             return Promise.resolve(null);
         }
 
-        if (text.includes('疲れた') || text.includes('つかれた') || text.includes('ツカレタ')) {
-            return client.replyMessage(this.line.replyToken, helper.sendImage("https://qiita-image-store.s3.amazonaws.com/0/203817/profile-images/1510250083"));
+        if(!user || !user.area) {
+            returnMessage =  messageHelper.textMessage(Constants.AREA_UNSET_MESSAGE);
         }
-        if (text.includes('バブル') || text.includes('ばぶる')) {
-            return client.replyMessage(this.line.replyToken, helper.sendBubble());
+
+        if(line.getText() === "> ゴミ出しの日は?") {
+            const trashDays = await TrashDays.find({area: user.area}).exec();
+            returnMessage = messageHelper.flexMessage(trashDays);
         }
-        if (text.includes('アイコン')) {
-            const test = await helper.sendIcons(text);
-            return client.replyMessage(this.line.replyToken, test);
+
+        if(line.getText() === "> 地域設定") {
+            const trashDays = await TrashDays.find({area: user.area}).exec();
+            returnMessage = messageHelper.buttonMessage(trashDays);
         }
-        if (text.includes('セパレータ')) {
-            const space = await helper.sendSeparator(text);
-            return client.replyMessage(this.line.replyToken, space);
-        }
-        if (text.includes('イメージ')) {
-            const space = await helper.sendImage(text);
-            return client.replyMessage(this.line.replyToken, space);
-        }
-        if (text.includes('ボタン')) {
-            const space = await helper.sendButton(text);
-            return client.replyMessage(this.line.replyToken, space);
-        }
-        if (text.includes('おわり')) {
-            const space = await helper.sendFinish(text);
-            return client.replyMessage(this.line.replyToken, space);
-        }
-        return client.replyMessage(this.line.replyToken, helper.sendText(text));
+
+        return client.replyMessage(line.getReplyToken(), returnMessage);
 
     } catch(err) {
         console.log(err);
